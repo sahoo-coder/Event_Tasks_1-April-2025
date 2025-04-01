@@ -8,6 +8,7 @@ table 50650 "Log Details"
         field(1; entryNo; Integer)
         {
             DataClassification = ToBeClassified;
+            AutoIncrement = true;
         }
         field(2; user_name; Text[50])
         {
@@ -18,6 +19,10 @@ table 50650 "Log Details"
             DataClassification = ToBeClassified;
         }
         field(4; item_no; Code[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(5; orderNo; Code[20])
         {
             DataClassification = ToBeClassified;
         }
