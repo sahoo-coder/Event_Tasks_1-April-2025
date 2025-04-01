@@ -9,6 +9,7 @@ codeunit 50450 salesOrderCodeunit
         users: Record User;
         logDetailsPage: page "Log Details Page_KSS";
         logDetailsTable: Record "Log Details";
+        item: Record Item;
     begin
         if SalesHeader."Document Type" = SalesHeader."Document Type"::Order then begin
             salesLine.Reset();
@@ -18,6 +19,13 @@ codeunit 50450 salesOrderCodeunit
                     userName := users."User Name";
                 end;
                 repeat
+                    item.Reset();
+                    item.SetRange("No.", salesLine."No.");
+                    if item.FindFirst() then begin
+                        item.CalcFields(Inventory);
+                        if item.Inventory < salesLine.Quantity then
+                            Error('Order Out Of stock for item %1', salesLine."No.");
+                    end;
                     logDetails.user_name := userName;
                     logDetails.item_no := salesLine."No.";
                     logDetails.orderNo := salesLine."Document No.";
