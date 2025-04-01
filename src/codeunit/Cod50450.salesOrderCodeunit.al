@@ -14,13 +14,14 @@ codeunit 50450 salesOrderCodeunit
         if SalesHeader."Document Type" = SalesHeader."Document Type"::Order then begin
             salesLine.Reset();
             salesLine.SetRange("Document No.", SalesHeader."No.");
+            salesLine.SetRange("Document Type", salesLine."Document Type"::Order);
             if salesLine.FindSet() then begin
                 if users.Get(UserSecurityId()) then begin
                     userName := users."User Name";
                 end;
                 repeat
                     item.Reset();
-                    item.SetRange("No.", salesLine."No.");
+                    item.Get(salesLine."No.");
                     if item.FindFirst() then begin
                         item.CalcFields(Inventory);
                         if item.Inventory < salesLine.Quantity then
